@@ -65,6 +65,12 @@ typings/
 # Output of 'npm pack'
 *.tgz
 
+# Output
+build
+
+# Database
+courses.db.json
+
 # Yarn Integrity file
 .yarn-integrity
 
