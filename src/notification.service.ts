@@ -9,8 +9,7 @@ class NotificationService {
         if (!message || message.replace("\n", "").length == 0) {
             return;
         }
-
-        channelName = "discord"
+        
         if (process.env.CHANNEL_LOCK && process.env.CHANNEL_LOCK.length > 0) {
             channelName = process.env.CHANNEL_LOCK;
         }
