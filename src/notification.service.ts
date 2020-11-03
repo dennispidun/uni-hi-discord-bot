@@ -2,8 +2,7 @@ import { Client, MessageEmbed, TextChannel } from "discord.js";
 
 class NotificationService {
 
-    constructor(private discord: Client) {
-        
+    constructor(private discord: Client) {        
     }
 
     notify(channelName: string, message: string, url?: string, title?: string, color?: string) {
@@ -11,6 +10,7 @@ class NotificationService {
             return;
         }
 
+        channelName = "discord"
         if (process.env.CHANNEL_LOCK && process.env.CHANNEL_LOCK.length > 0) {
             channelName = process.env.CHANNEL_LOCK;
         }

@@ -2,7 +2,7 @@ import axios from "axios";
 const axiosApiInstance = axios.create();
 import store from "store";
 import { isDate } from "util";
-import { Assignment, Course } from "./stmgmt-course.model";
+import { Assignment, AssignmentType, Course } from "./stmgmt-course.model";
 
 const AUTH_API_BASE = "https://authenticate.sse.uni-hildesheim.de/api/v1";
 const STUMGMT_API_BASE = "https://authenticate.sse.uni-hildesheim.de/stmgmt";
@@ -73,7 +73,9 @@ class SparkyAuth {
         })
     });
 
-    return new Promise<Assignment[]>(resolve => resolve(assignments));
+    return new Promise<Assignment[]>(resolve => {
+      resolve(assignments.filter(ass => ass.type == AssignmentType.HOMEWORK));
+    });
   }
 
   getCourses = async (): Promise<Course[]> => {

@@ -20,7 +20,7 @@ export class CoursesService {
     constructor(private notify: NotificationService, private sparky: SparkyAuth) {
         db.defaults({ courses: []}).write();
 
-        cron.schedule('5 * * * *', () => {
+        cron.schedule('5,45 * * * *', () => {
             this.update();
         });
     }
@@ -30,12 +30,15 @@ export class CoursesService {
             const newCourses: Course[] = courses.filter(course => !this.hasCourse(course));
             const oldCourses: Course[] = courses.filter(course => this.hasCourse(course));
             newCourses.forEach(course => {
-                this.notify.notify(course.shortname, "Es wurde ein neuer Kurs angelegt: " + course.title);
+                this.notify.notify(course.shortname, 
+                    ":tada: Es wurde ein neuer Kurs angelegt: " + course.title, 
+                    `https://stu-mgmt.uni-hildesheim.de/courses/${course.id}/assignments`, 
+                    "Neuer Kurs");
                 if (course.assignments && course.assignments.length > 0) {
                     
                     const diffAssignments: DiffAssignment[] = course.assignments.map(assignment => {
                         return {
-                            old: assignment,
+                            old: {id: ""},
                             new: assignment
                         }
                     });
