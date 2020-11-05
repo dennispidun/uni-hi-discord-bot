@@ -19,8 +19,8 @@ export class CoursesService {
 
     constructor(private notify: NotificationService, private sparky: SparkyAuth) {
         db.defaults({ courses: []}).write();
-
-        cron.schedule('5,45 * * * *', () => {
+        this.update();
+        cron.schedule('5,50 * * * *', () => {
             this.update();
         });
     }
@@ -70,8 +70,8 @@ export class CoursesService {
             let message = "";
             let title = "Hausaufgaben Status: " + diffAssignment.new.name;
             let color = "#339933";
-            const newEndDate = diffAssignment.new.endDate ? diffAssignment.new.endDate.toLocaleString('de-DE', { timeZone: 'CET' }) : undefined;
-            const oldEndDate = diffAssignment.old.endDate ? diffAssignment.old.endDate.toLocaleString('de-DE', { timeZone: 'CET' }) : undefined;
+            const newEndDate = diffAssignment.new.endDate ? new Date(diffAssignment.new.endDate).toLocaleString('de-DE', { timeZone: 'CET' }) : undefined;
+            const oldEndDate = diffAssignment.old.endDate ? new Date(diffAssignment.old.endDate).toLocaleString('de-DE', { timeZone: 'CET' }) : undefined;
 
             if (diffAssignment.old.state !== diffAssignment.new.state) {
                 if (diffAssignment.new.state === AssignmentState.IN_PROGRESS) {                    
