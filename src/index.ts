@@ -42,21 +42,4 @@ discord.on('ready', async () => {
   console.log(`Logged in as ${discord.user.tag}!`);
 });
 
-discord.on('message', msg => {
-  if (msg.channel.type !== 'text' 
-    || !(msg.channel as TextChannel).name.includes(process.env.JAVA_CHANNEL)) {
-      return;
-  } else {
-    console.log(msg.channel.type + " " + (msg.channel as TextChannel).name);
-  }
-
-  
-
-  if (msg.content.includes('gruppe') && 
-    (msg.content.includes('such') || msg.content.includes('brauch'))  && 
-    msg.content.includes('?')) {
-      msg.reply('Folgende Gruppen suchen noch Teammitglieder: ');
-  }
-});
-
 discord.login(process.env.DISCORD_BOT_TOKEN);
