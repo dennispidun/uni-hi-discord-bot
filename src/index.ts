@@ -1,7 +1,8 @@
-import { Client } from "discord.js";
+import { Client, TextChannel } from "discord.js";
 import SparkyAuth from "./sparky/sparky-client";
 import CoursesService from "./courses.service";
 import NotificationService from "./notification.service";
+import { env } from "process";
 // import { Assignment, AssignmentLink, AssignmentState, Course, DiffAssignment } from "./sparky/stmgmt-course.model";
 
 // Create an instance of a Discord client
@@ -39,6 +40,23 @@ discord.on('ready', async () => {
   // coursesService.notifyAssignments(exampleCourse, diffAssignments);
 
   console.log(`Logged in as ${discord.user.tag}!`);
+});
+
+discord.on('message', msg => {
+  if (msg.channel.type !== 'text' 
+    || !(msg.channel as TextChannel).name.includes(process.env.JAVA_CHANNEL)) {
+      return;
+  } else {
+    console.log(msg.channel.type + " " + (msg.channel as TextChannel).name);
+  }
+
+  
+
+  if (msg.content.includes('gruppe') && 
+    (msg.content.includes('such') || msg.content.includes('brauch'))  && 
+    msg.content.includes('?')) {
+      msg.reply('Folgende Gruppen suchen noch Teammitglieder: ');
+  }
 });
 
 discord.login(process.env.DISCORD_BOT_TOKEN);

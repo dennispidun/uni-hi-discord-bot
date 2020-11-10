@@ -70,6 +70,8 @@ export class CoursesService {
             let message = "";
             let title = "Hausaufgaben Status: " + diffAssignment.new.name;
             let color = "#339933";
+
+            console.log(diffAssignment);
             const newEndDate = diffAssignment.new.endDate ? new Date(diffAssignment.new.endDate).toLocaleString('de-DE', { timeZone: 'CET' }) : undefined;
             const oldEndDate = diffAssignment.old.endDate ? new Date(diffAssignment.old.endDate).toLocaleString('de-DE', { timeZone: 'CET' }) : undefined;
 
