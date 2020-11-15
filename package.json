@@ -8,7 +8,7 @@
     "build": "npx tsc",
     "build:ci": "tsc",
     "start": "npm run build && node -r dotenv/config build/index.js",
-    "deploy": "env $(cat .env | grep -v \"#\" | xargs) pm2 deploy ecosystem.config.js production"
+    "deploy": "env $(cat .env | grep -v \"#\" | xargs) pm2 deploy src/ecosystem.config.js production"
   },
   "author": "",
   "license": "ISC",
