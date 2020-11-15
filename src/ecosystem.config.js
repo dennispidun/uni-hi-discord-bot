@@ -31,8 +31,7 @@ module.exports = {
             NODE_ENV: 'production',
             DISCORD_BOT_TOKEN: process.env.DISCORD_BOT_TOKEN,
             UNI_USERNAME: process.env.UNI_USERNAME,
-            UNI_PASSWORD: process.env.UNI_PASSWORD,
-            CHANNEL_LOCK: 'test'
+            UNI_PASSWORD: process.env.UNI_PASSWORD
             },
         },
     },
