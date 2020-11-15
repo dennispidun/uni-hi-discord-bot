@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx tsc",
+    "build:ci": "tsc",
     "start": "npm run build && node -r dotenv/config build/index.js",
     "deploy": "env $(cat .env | grep -v \"#\" | xargs) pm2 deploy ecosystem.config.js production"
   },
@@ -26,7 +27,6 @@
     "@types/node-cron": "^2.0.3",
     "@types/store": "^2.0.2",
     "@types/ws": "^7.2.9",
-    "npx": "^10.2.2",
     "typescript": "^4.0.5"
   }
 }
