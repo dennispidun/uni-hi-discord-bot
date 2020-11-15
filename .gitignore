@@ -71,6 +71,9 @@ build
 # Database
 courses.db.json
 
+# Deploy Key
+deploy.key
+
 # Yarn Integrity file
 .yarn-integrity
 
