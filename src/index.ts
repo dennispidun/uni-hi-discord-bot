@@ -39,7 +39,7 @@ discord.on('ready', async () => {
   
   // coursesService.notifyAssignments(exampleCourse, diffAssignments);
 
-  console.log(`Logged in as ${discord.user.tag}!`);
+  console.log(`Logged in as ${discord.user.tag}, V1.0.0!`);
 });
 
 discord.login(process.env.DISCORD_BOT_TOKEN);

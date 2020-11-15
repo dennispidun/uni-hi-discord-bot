@@ -2,7 +2,7 @@ module.exports = {
     apps: [
         {
             name: 'unibot',
-            script: 'npm ',
+            script: 'build/index.js',
             time: true,
             instances: 1,
             autorestart: true,
