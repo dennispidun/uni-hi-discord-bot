@@ -27,10 +27,10 @@ jobs:
           echo UNI_PASSWORD=${{ secrets.UNI_PASSWORD }} >> .env
 
       - name: Install PM2
-        run: npm i pm2 --global
+        run: npm i pm2
 
       - name: Deploy
-        run: env $(cat .env | grep -v \"#\" | xargs) pm2 deploy ecosystem.config.js staging
+        run: npm run deploy
         env:
           DEPLOY_PM2_HOST: ${{secrets.DEPLOY_PM2_HOST}}
           DEPLOY_PM2_USER: ${{secrets.DEPLOY_PM2_USER}}
