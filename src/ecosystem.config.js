@@ -26,7 +26,7 @@ module.exports = {
             repo: 'https://github.com/dennispidun/uni-hi-discord-bot',
             path: '/home/unibot',
             'post-deploy':
-            'npm i && npm run build:ci && pm2 reload src/ecosystem.config.js --env production && pm2 save',
+            'pwd && npm i && npm run build:ci && pm2 reload /home/unibot/src/ecosystem.config.js --env production && pm2 save',
             env: {
             NODE_ENV: 'production',
             DISCORD_BOT_TOKEN: process.env.DISCORD_BOT_TOKEN,
