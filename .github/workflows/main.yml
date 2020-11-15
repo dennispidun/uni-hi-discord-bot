@@ -30,7 +30,7 @@ jobs:
         run: npm i pm2
 
       - name: Deploy
-        run: npm run deploy
+        run: git checkout package-lock.json && npm run deploy
         env:
           DEPLOY_PM2_HOST: ${{secrets.DEPLOY_PM2_HOST}}
           DEPLOY_PM2_USER: ${{secrets.DEPLOY_PM2_USER}}
