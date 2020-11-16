@@ -20,7 +20,7 @@ export class CoursesService {
     constructor(private notify: NotificationService, private sparky: SparkyAuth) {
         db.defaults({ courses: []}).write();
         this.update();
-        cron.schedule('5,50 * * * *', () => {
+        cron.schedule('5,45 * * * *', () => {
             this.update();
         });
     }

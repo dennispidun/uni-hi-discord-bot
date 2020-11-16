@@ -1,8 +1,9 @@
 import axios from "axios";
 const axiosApiInstance = axios.create();
 import store from "store";
-import { isDate } from "util";
 import { Assignment, AssignmentType, Course } from "./stmgmt-course.model";
+
+import cron from "node-cron";
 
 const AUTH_API_BASE = "https://authenticate.sse.uni-hildesheim.de/api/v1";
 const STUMGMT_API_BASE = "https://authenticate.sse.uni-hildesheim.de/stmgmt";
@@ -30,6 +31,20 @@ class SparkyAuth {
         }
         return config;
       });
+
+      axiosApiInstance.interceptors.response.use((response) => {
+          return response;
+      }, (error) => {
+        if (401 === error.response.status) {
+          this.login(credentials).then(() => {});
+        } else {
+          return Promise.reject(error);
+        }
+
+        error.config.__isRetryRequest = true
+        return axiosApiInstance(error.config)
+      });
+
     });
   }
 
