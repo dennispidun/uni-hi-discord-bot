@@ -1,8 +1,9 @@
-import { Client, TextChannel } from "discord.js";
+import { Client, DMChannel, TextChannel } from "discord.js";
 import SparkyAuth from "./sparky/sparky-client";
 import CoursesService from "./courses.service";
 import NotificationService from "./notification.service";
 import { env } from "process";
+import LeaderboardService from "./aoc/leaderboard.service";
 // import { Assignment, AssignmentLink, AssignmentState, Course, DiffAssignment } from "./sparky/stmgmt-course.model";
 
 // Create an instance of a Discord client
@@ -12,12 +13,16 @@ const sparky = new SparkyAuth({username: process.env.UNI_USERNAME, password: pro
 let coursesService: CoursesService;
 
 let notifyService: NotificationService;
+let leaderboardService: LeaderboardService;
 
 discord.on('ready', async () => {
   notifyService = new NotificationService(discord);
-  coursesService = new CoursesService(notifyService, sparky);
+  leaderboardService = new LeaderboardService(discord, notifyService);
+  leaderboardService.getLeaderboard();
 
-  const courses = await sparky.getCourses();
+  coursesService = new CoursesService(notifyService, sparky);
+  console.log("session_cookie: ", process.env.SESSION_COOKIE);
+  // const courses = await sparky.getCourses();
   
   // let exampleCourse: Course = {id: "java-wise2021", shortname: "java", title: "Java Praktikum 1 bla bla"}
   // let diffAssignments: DiffAssignment[] = []
@@ -40,6 +45,17 @@ discord.on('ready', async () => {
   // coursesService.notifyAssignments(exampleCourse, diffAssignments);
 
   console.log(`Logged in as ${discord.user.tag}, V1.0.0!`);
+});
+
+discord.on('message', async (message) => {
+  if (message.content === "!leaderboard" || message.content === "!lb") {
+    if (message.channel.type === "text") {
+      let channel: DMChannel = await message.author.createDM();
+      if (message.channel.name === "advent-of-code" || message.channel.name === "test") {  
+        leaderboardService.sendCurrentLeaderboard(channel);
+      }
+    }
+  }
 });
 
 discord.login(process.env.DISCORD_BOT_TOKEN);

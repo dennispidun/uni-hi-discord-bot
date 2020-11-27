@@ -73,9 +73,9 @@ export class CoursesService {
 
             console.log(diffAssignment);
             const newEndDate = diffAssignment.new.endDate ? new Date(diffAssignment.new.endDate).toLocaleString('de-DE', { timeZone: 'CET' }) : undefined;
-            const oldEndDate = diffAssignment.old.endDate ? new Date(diffAssignment.old.endDate).toLocaleString('de-DE', { timeZone: 'CET' }) : undefined;
+            const oldEndDate = diffAssignment.old && diffAssignment.old.endDate ? new Date(diffAssignment.old.endDate).toLocaleString('de-DE', { timeZone: 'CET' }) : newEndDate;
 
-            if (diffAssignment.old.state !== diffAssignment.new.state) {
+            if (!diffAssignment.old || diffAssignment.old.state !== diffAssignment.new.state) {
                 if (diffAssignment.new.state === AssignmentState.IN_PROGRESS) {                    
                     if (newEndDate) {
                         message += `:pencil: **${diffAssignment.new.name}** kann nun bis spätestens __${newEndDate}__ bearbeitet werden.`
