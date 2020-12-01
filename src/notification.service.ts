@@ -8,6 +8,10 @@ class NotificationService {
     }
 
     simpleNotify(channelName: string, message: string) {
+        if (!channelName || !message) {
+            return;
+        }
+
         let guildChannel: TextChannel = this.discord.channels.cache.array()
             .filter(channel => channel.type == 'text')
             .map(channel => channel as TextChannel)
@@ -16,9 +20,7 @@ class NotificationService {
     }
 
     simpleNotifyChannel(guildChannel: DMChannel | TextChannel, message: string) {
-        console.log("1");
         if (!guildChannel || !message) {
-            console.log("1.1");
             return;
         }
 

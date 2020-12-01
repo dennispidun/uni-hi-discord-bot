@@ -54,6 +54,9 @@ discord.on('message', async (message) => {
       if (message.channel.name === "advent-of-code" || message.channel.name === "test") {  
         leaderboardService.sendCurrentLeaderboard(channel);
       }
+    } else if (message.channel.type === "dm") {
+      let channel: DMChannel = await message.author.createDM();
+      leaderboardService.sendCurrentLeaderboard(channel);
     }
   }
 });
