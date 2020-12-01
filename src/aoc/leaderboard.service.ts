@@ -74,7 +74,7 @@ class LeaderboardService {
                         const time = this.getFormattedDate(after['2']['get_star_ts']);
                         message = `**${member.name}** hat beide Aufgaben von Tag ${day} um ${time}Uhr gelöst!`;
                     }
-                    this.notify.simpleNotify("test", message);
+                    this.notify.simpleNotify("advent-of-code", message);
                 }
                 
                 db.get('leaderboard')
