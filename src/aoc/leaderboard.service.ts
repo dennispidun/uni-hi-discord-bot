@@ -12,7 +12,7 @@ const ranks = [":one:", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven
 class LeaderboardService {
 
     constructor(private discord: Client, private notify: NotificationService) {
-        cron.schedule('6 * * * *', async () => {
+        cron.schedule('0 6 * * *', async () => {
             var dateObj = new Date();
             var month = dateObj.getUTCMonth() + 1;
             var day = dateObj.getUTCDate();
