@@ -12,10 +12,15 @@ class NotificationService {
             return;
         }
 
+        if (channelName !== process.env.CHANNEL_LOCK && process.env.CHANNEL_LOCK && process.env.CHANNEL_LOCK.length > 0 ) {
+            channelName = process.env.CHANNEL_LOCK;
+        }
+
         let guildChannel: TextChannel = this.discord.channels.cache.array()
             .filter(channel => channel.type == 'text')
             .map(channel => channel as TextChannel)
             .filter(channel => channel.name.includes(channelName))[0];
+
         this.simpleNotifyChannel(guildChannel, message);
     }
 
@@ -31,12 +36,13 @@ class NotificationService {
                 && process.env.CHANNEL_LOCK 
                 && process.env.CHANNEL_LOCK.length > 0 ) {
             this.simpleNotify(process.env.CHANNEL_LOCK, message);
-            return;
-        }
-        if (channel instanceof DMChannel) {
-            (channel as DMChannel).send(message);
-        }else {
-            (channel as TextChannel).send(message);
+
+        } else {
+            if (channel instanceof DMChannel) {
+                (channel as DMChannel).send(message);
+            }else {
+                (channel as TextChannel).send(message);
+            }
         }
     }
 

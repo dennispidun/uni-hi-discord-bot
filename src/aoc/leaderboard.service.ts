@@ -43,13 +43,12 @@ class LeaderboardService {
             
         });
 
-        cron.schedule('* */5 * * * *', async () => {
+        cron.schedule('0 * * * * *', async () => {
             let leaderboard = await this.getLeaderboard();
             var dateObj = new Date();
             var day = dateObj.getUTCDate();
 
             leaderboard.forEach((member: LeaderboardMember) => {
-
                 let beforeMember = db.get('leaderboard')
                     .find({ id: member.id })
                     .value();
@@ -66,7 +65,6 @@ class LeaderboardService {
                     if (before === undefined && after['1'] !== undefined && after['2'] === undefined) {
                         const time = this.getFormattedDate(after['1']['get_star_ts']);
                         message = `**${member.name}** hat die erste Aufgabe von Tag ${day} um ${time}Uhr gelöst!`;
-                        this.notify.simpleNotify("advent-of-code", `**${member.name}** hat die erste Aufgabe von Tag ${day} um ${time}Uhr gelöst!`);
                     } else if (before && before['1'] !== undefined && after['1'] !== undefined && after['2'] !== undefined) {
                         const time = this.getFormattedDate(after['2']['get_star_ts']);
                         message = `**${member.name}** hat die zweite Aufgabe von Tag ${day} um ${time}Uhr gelöst!`;
@@ -105,7 +103,7 @@ class LeaderboardService {
 
             for(let member of Object.keys(response.data.members)) {
                 // response.data.members[member].local_score = Math.floor(Math.random() * 130) + 1;  
-                let lbMember: LeaderboardMember = response.data.members[member];       
+                let lbMember: LeaderboardMember = response.data.members[member];    
                 this.normalizeName(lbMember);       
                 leaderboard.push(lbMember);
             }

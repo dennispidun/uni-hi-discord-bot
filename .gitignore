@@ -70,6 +70,7 @@ build
 
 # Database
 courses.db.json
+aoc-leaderboard.db.json
 
 # Deploy Key
 deploy.key

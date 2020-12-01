@@ -18,8 +18,7 @@ let leaderboardService: LeaderboardService;
 discord.on('ready', async () => {
   notifyService = new NotificationService(discord);
   leaderboardService = new LeaderboardService(discord, notifyService);
-  leaderboardService.getLeaderboard();
-
+  
   coursesService = new CoursesService(notifyService, sparky);
   console.log("session_cookie: ", process.env.SESSION_COOKIE);
   // const courses = await sparky.getCourses();
