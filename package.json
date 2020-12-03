@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx tsc",
-    "build:ci": "tsc",
+    "build:ci": "npm ci && tsc",
     "start": "npm run build && node -r dotenv/config build/index.js",
     "deploy": "env $(cat .env | grep -v \"#\" | xargs) pm2 deploy src/ecosystem.config.js production"
   },
