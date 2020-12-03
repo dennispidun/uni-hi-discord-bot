@@ -26,6 +26,7 @@ jobs:
           echo UNI_USERNAME=${{ secrets.UNI_USERNAME }} >> .env
           echo UNI_PASSWORD=${{ secrets.UNI_PASSWORD }} >> .env
           echo SESSION_COOKIE=${{ secrets.SESSION_COOKIE }} >> .env
+          echo DBX_TOKEN=${{ secret.DBX_TOKEN}} >> .env
 
       - name: Install PM2
         run: npm i pm2

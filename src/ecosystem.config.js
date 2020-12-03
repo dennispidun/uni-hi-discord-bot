@@ -14,7 +14,8 @@ module.exports = {
                 DISCORD_BOT_TOKEN: process.env.DISCORD_BOT_TOKEN,
                 UNI_USERNAME: process.env.UNI_USERNAME,
                 UNI_PASSWORD: process.env.UNI_PASSWORD,
-                SESSION_COOKIE: process.env.SESSION_COOKIE
+                SESSION_COOKIE: process.env.SESSION_COOKIE,
+                DBX_TOKEN: process.env.DBX_TOKEN,
             }
         },
     ],
@@ -33,7 +34,8 @@ module.exports = {
             DISCORD_BOT_TOKEN: process.env.DISCORD_BOT_TOKEN,
             UNI_USERNAME: process.env.UNI_USERNAME,
             UNI_PASSWORD: process.env.UNI_PASSWORD,
-            SESSION_COOKIE: process.env.SESSION_COOKIE
+            SESSION_COOKIE: process.env.SESSION_COOKIE,
+            DBX_TOKEN: process.env.DBX_TOKEN
             },
         },
     },
