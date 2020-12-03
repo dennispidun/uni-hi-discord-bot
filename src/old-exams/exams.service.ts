@@ -45,19 +45,23 @@ class ExamsService {
                     this.notify.notifyChannel(channel, "Du musst eine Uni-E-Mail angeben, damit wir dich kontaktieren können.", undefined, "Altklausuranfrage", "#ff0028");
                 } else {
                     const text = message.cleanContent.replace(email[2], "").trim();
-
-                    let internalMsg: Message = await this.notify.simpleNotify(
-                        "altklausuren-intern", this.generateInternalMessage({ search: text, email: email[2], exams: [] }));
-                    let exams = await this.getExams();
-                    this.write({ i_id: internalMsg.id, email: email[2], search: text, id: message.author.id, exams });
-
-                    await internalMsg.react('👍');
-                    await internalMsg.react('👎');
-
-                    message.delete();
-
-                    this.notify.notifyChannel(channel, `Dir wird unter \`${email[2]}\` der Download-Link zum Modul/Fach (\`${text}\`) zugeschickt, bitte habe Geduld. Deine Anfrage wird noch manuell von uns bestätigt.`, undefined, "Altklausuranfrage");
+                    let exams = await this.getExams(text);
+                    
+                    if (exams.length > 0) {
+                        let internalMsg: Message = await this.notify.simpleNotify(
+                            "altklausuren-intern", this.generateInternalMessage({ search: text, email: email[2], exams: [] }));
+    
+                        await internalMsg.react('👍');
+                        await internalMsg.react('👎');
+                        this.write({ i_id: internalMsg.id, email: email[2], search: text, id: message.author.id, exams });
+                        this.notify.notifyChannel(channel, `Dir wird unter \`${email[2]}\` der Download-Link zum Modul/Fach (\`${text}\`) zugeschickt, bitte habe Geduld. Deine Anfrage wird noch manuell von uns bestätigt.`, undefined, "Altklausuranfrage");
+                    } else {
+                        this.notify.notifyChannel(channel, `Für deine Suche (\`${text}\`) wurden keine Dokumente gefunden. Bei Fragen wende dich bitte an: \`fs_winf@uni-hildesheim.de\`.`, undefined, "Altklausuranfrage", "#ff0028");
+                    }                    
                 }
+                
+
+                message.delete();
             }
         });
     }
@@ -138,11 +142,11 @@ class ExamsService {
                     });
                 foundMessage.link = link.result.url;
                 this.sharing.addShareLink(foundMessage.link);
-            }catch(e) {
+            } catch (e) {
                 console.log(e);
             }
-            
-            
+
+
 
             await reaction.message.reactions.removeAll();
             this.write(foundMessage);
@@ -193,9 +197,13 @@ class ExamsService {
         db.get('messages').push(messages).write();
     }
 
-    async getExams(): Promise<string[]> {
+    async getExams(search?: string): Promise<string[]> {
         return (await this.dbx.filesListFolder({ path: '' }))
-            .result.entries.map(e => e.name);
+            .result.entries.map(e => e.name)
+            .filter(e => search
+                && search.length > 1
+                && (e === search || search.includes(e)
+                    || e.includes(search)));
     }
 
     generateInternalMessage(msg: { email: string, search: string, exams: string[], link?: string }): string {
