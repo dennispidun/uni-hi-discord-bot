@@ -27,6 +27,8 @@ jobs:
           echo UNI_PASSWORD=${{ secrets.UNI_PASSWORD }} >> .env
           echo SESSION_COOKIE=${{ secrets.SESSION_COOKIE }} >> .env
           echo DBX_TOKEN=${{ secrets.DBX_TOKEN}} >> .env
+          echo UNI_FS_MAIL=${{ secrets.UNI_FS_MAIL}} >> .env
+          echo UNI_FS_PASSWORD=${{ secrets.UNI_FS_PASSWORD}} >> .env
 
       - name: Install PM2
         run: npm i pm2 && npm i node-fetch

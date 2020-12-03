@@ -6,6 +6,7 @@ import cron from "node-cron";
 
 type Schema = {
     links: {
+        name: string,
         link: string,
         expires: number
     }[];
@@ -38,13 +39,18 @@ class SharingService {
         });
     }
 
-    addShareLink(link: string) {
+    addShareLink(name: string, link: string) {
         db.get("links").remove({link}).write();
     
         db.get("links").push({
+            name,
             link,
             expires: Date.now() + 60*60*1000*24*7
         }).write();
+    }
+
+    getLink(name: string) {
+        return db.get("links").find({name}).value();
     }
 }
 export default SharingService;

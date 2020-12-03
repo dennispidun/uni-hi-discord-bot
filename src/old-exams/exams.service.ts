@@ -60,7 +60,6 @@ class ExamsService {
                     }                    
                 }
                 
-
                 message.delete();
             }
         });
@@ -128,25 +127,30 @@ class ExamsService {
 
             const exams = foundMessage.exams;
             try {
-                let link = await this.dbx.sharingCreateSharedLinkWithSettings(
-                    {
-                        settings: {
-                            access: {
-                                ".tag": "viewer"
+                const exam = exams[REACT_NUMBERS.indexOf(reaction.emoji.name)];
+
+                const shareLink = this.sharing.getLink(exam);
+                let link = shareLink ? shareLink.link : "";
+
+                if (!shareLink) {
+                    link = (await this.dbx.sharingCreateSharedLinkWithSettings(
+                        {
+                            settings: {
+                                access: {
+                                    ".tag": "viewer"
+                                },
+                                requested_visibility: {
+                                    '.tag': 'public'
+                                }
                             },
-                            requested_visibility: {
-                                '.tag': 'public'
-                            }
-                        },
-                        path: "/" + exams[REACT_NUMBERS.indexOf(reaction.emoji.name)]
-                    });
-                foundMessage.link = link.result.url;
-                this.sharing.addShareLink(foundMessage.link);
+                            path: "/" + exam
+                        })).result.url;
+                }
+                foundMessage.link = link;
+                this.sharing.addShareLink(exam, foundMessage.link);
             } catch (e) {
                 console.log(e);
             }
-
-
 
             await reaction.message.reactions.removeAll();
             this.write(foundMessage);
@@ -178,14 +182,19 @@ class ExamsService {
                 return;
             }
             const guild = reaction.message.guild;
-            const dm = await guild.members.cache.get(foundMessage.id).createDM();
 
-            this.notify.notifyChannel(dm, "Dein Download-Link für deine Anfrage steht bereit \n\n"
-                + foundMessage.link + "\n\n__Dieser Link ist genau 1 Tag gültig!__", undefined, "Altklausuranfrage");
+
+
+            this.notify.emailNotify(
+                foundMessage.email, 
+                "Deine Altklausurenanfrage ✔",
+                "Dein Download-Link für deine Anfrage steht bereit \n\n"
+                + foundMessage.link + "\n\nDieser Link ist genau 5 Tage gültig!"
+                + "\n\nBei organisatorischen Fragen kannst du dich gerne bei uns melden."
+                + "\n\n\nViele Grüße\nDeine Informatik Fachschaft 💻");
 
             await reaction.message.reactions.removeAll();
             reaction.message.react('🆗');
-
         });
     }
 
@@ -207,6 +216,7 @@ class ExamsService {
     }
 
     generateInternalMessage(msg: { email: string, search: string, exams: string[], link?: string }): string {
+        console.log(msg);
         if (!msg.exams) {
             msg.exams = [];
         }

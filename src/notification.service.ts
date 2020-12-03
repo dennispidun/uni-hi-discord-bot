@@ -1,8 +1,32 @@
 import { Channel, Client, DMChannel, GuildChannel, Message, MessageEmbed, TextChannel, VoiceChannel } from "discord.js";
 
+import nodemailer from "nodemailer";
+
 class NotificationService {
 
     constructor(private discord: Client) {  
+    }
+
+    emailNotify(to: string, subject: string, text: string) {
+        let transporter = nodemailer.createTransport({
+            host: "smtp.uni-hildesheim.de",
+            port: 465,
+            secure: true,
+            requireTLS: false,
+            auth: {
+                user: process.env.UNI_FS_MAIL, 
+                pass: process.env.UNI_FS_PASSWORD,
+            },
+        });
+        
+        // send mail with defined transport object
+        let info = transporter.sendMail({
+            from: '"Informatik Fachschaft 💻" <fs_winf@uni-hildesheim.de>', // sender address
+            bcc: 'fs_winf@uni-hildesheim.de',
+            to, // list of receivers
+            subject, // Subject line
+            text
+        });
     }
 
     simpleNotify(channelName: string, message: string): Promise<Message> {
