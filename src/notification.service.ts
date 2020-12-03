@@ -1,13 +1,11 @@
-import { Channel, Client, DMChannel, GuildChannel, MessageEmbed, TextChannel, VoiceChannel } from "discord.js";
-
-
+import { Channel, Client, DMChannel, GuildChannel, Message, MessageEmbed, TextChannel, VoiceChannel } from "discord.js";
 
 class NotificationService {
 
     constructor(private discord: Client) {  
     }
 
-    simpleNotify(channelName: string, message: string) {
+    simpleNotify(channelName: string, message: string): Promise<Message> {
         if (!channelName || !message) {
             return;
         }
@@ -21,10 +19,10 @@ class NotificationService {
             .map(channel => channel as TextChannel)
             .filter(channel => channel.name.includes(channelName))[0];
 
-        this.simpleNotifyChannel(guildChannel, message);
+        return this.simpleNotifyChannel(guildChannel, message);
     }
 
-    simpleNotifyChannel(guildChannel: DMChannel | TextChannel, message: string) {
+    simpleNotifyChannel(guildChannel: DMChannel | TextChannel, message: string): Promise<Message> {
         if (!guildChannel || !message) {
             return;
         }
@@ -39,9 +37,9 @@ class NotificationService {
 
         } else {
             if (channel instanceof DMChannel) {
-                (channel as DMChannel).send(message);
+                return (channel as DMChannel).send(message);
             }else {
-                (channel as TextChannel).send(message);
+                return (channel as TextChannel).send(message);
             }
         }
     }

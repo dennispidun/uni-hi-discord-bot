@@ -4,25 +4,32 @@ import CoursesService from "./courses.service";
 import NotificationService from "./notification.service";
 import { env } from "process";
 import LeaderboardService from "./aoc/leaderboard.service";
+import ExamsService from "./old-exams/exams.service";
+import { Dropbox } from "dropbox";
 // import { Assignment, AssignmentLink, AssignmentState, Course, DiffAssignment } from "./sparky/stmgmt-course.model";
 
 // Create an instance of a Discord client
 const discord = new Client();
 
-const sparky = new SparkyAuth({username: process.env.UNI_USERNAME, password: process.env.UNI_PASSWORD});
+const sparky = new SparkyAuth({ username: process.env.UNI_USERNAME, password: process.env.UNI_PASSWORD });
 let coursesService: CoursesService;
 
 let notifyService: NotificationService;
 let leaderboardService: LeaderboardService;
-
+let dbx: Dropbox;
 discord.on('ready', async () => {
+ 
+
   notifyService = new NotificationService(discord);
+
+  new ExamsService(discord, notifyService);
+
   leaderboardService = new LeaderboardService(discord, notifyService);
-  
+
   coursesService = new CoursesService(notifyService, sparky);
   console.log("session_cookie: ", process.env.SESSION_COOKIE);
   // const courses = await sparky.getCourses();
-  
+
   // let exampleCourse: Course = {id: "java-wise2021", shortname: "java", title: "Java Praktikum 1 bla bla"}
   // let diffAssignments: DiffAssignment[] = []
   // let assignment1_links: AssignmentLink[] = [];
@@ -40,7 +47,7 @@ discord.on('ready', async () => {
   // let assignment_old4: Assignment = {id: "dsfsdfsdf", "name": "TestAufgabe1", state: AssignmentState.IN_PROGRESS, endDate: new Date(Date.parse("2020-11-03T11:00:00.000Z"))};
   // let assignment_new4: Assignment = {id: "dsfsdfsdf", "name": "TestAufgabe1", state: AssignmentState.IN_PROGRESS, endDate: new Date(Date.parse("2020-11-03T12:00:00.000Z"))};
   // diffAssignments.push({old: assignment_old4, new: assignment_new4});
-  
+
   // coursesService.notifyAssignments(exampleCourse, diffAssignments);
 
   console.log(`Logged in as ${discord.user.tag}, V1.0.0!`);
@@ -50,7 +57,7 @@ discord.on('message', async (message) => {
   if (message.content === "!leaderboard" || message.content === "!lb") {
     if (message.channel.type === "text") {
       let channel: DMChannel = await message.author.createDM();
-      if (message.channel.name === "advent-of-code" || message.channel.name === "test") {  
+      if (message.channel.name === "advent-of-code" || message.channel.name === "test") {
         leaderboardService.sendCurrentLeaderboard(channel);
       }
     } else if (message.channel.type === "dm") {
