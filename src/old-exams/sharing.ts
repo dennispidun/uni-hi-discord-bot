@@ -49,8 +49,24 @@ class SharingService {
         }).write();
     }
 
-    getLink(name: string) {
-        return db.get("links").find({name}).value();
+    async getLink(name: string): Promise<any> {
+        let link = db.get("links").find({name}).value();
+        if (!link) {
+            try {
+                const links = (await this.dbx.sharingListSharedLinks({})).result
+                    .links.filter(foundLink => foundLink.name.includes(name)
+                        || name.includes(foundLink.name));
+                
+                if (links.length > 0) {
+                    this.addShareLink(name, links[0].url);
+                    return await this.getLink(name);
+                }
+                
+            } catch (e) {}
+            return undefined;
+        }
+
+        return link;
     }
 }
 export default SharingService;

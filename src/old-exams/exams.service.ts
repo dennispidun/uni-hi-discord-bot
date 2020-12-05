@@ -129,7 +129,7 @@ class ExamsService {
             try {
                 const exam = exams[REACT_NUMBERS.indexOf(reaction.emoji.name)];
 
-                const shareLink = this.sharing.getLink(exam);
+                const shareLink = await this.sharing.getLink(exam);
                 let link = shareLink ? shareLink.link : "";
 
                 if (!shareLink) {
@@ -182,8 +182,6 @@ class ExamsService {
                 return;
             }
             const guild = reaction.message.guild;
-
-
 
             this.notify.emailNotify(
                 foundMessage.email, 
