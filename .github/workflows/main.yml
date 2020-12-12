@@ -26,15 +26,15 @@ jobs:
           echo UNI_USERNAME=${{ secrets.UNI_USERNAME }} >> .env
           echo UNI_PASSWORD=${{ secrets.UNI_PASSWORD }} >> .env
           echo SESSION_COOKIE=${{ secrets.SESSION_COOKIE }} >> .env
-          echo DBX_TOKEN=${{ secrets.DBX_TOKEN}} >> .env
-          echo UNI_FS_MAIL=${{ secrets.UNI_FS_MAIL}} >> .env
-          echo UNI_FS_PASSWORD=${{ secrets.UNI_FS_PASSWORD}} >> .env
+          echo DBX_TOKEN=${{ secrets.DBX_TOKEN }} >> .env
+          echo UNI_FS_MAIL=${{ secrets.UNI_FS_MAIL }} >> .env
+          echo UNI_FS_PASSWORD=${{ secrets.UNI_FS_PASSWORD }} >> .env
 
       - name: Install PM2
         run: npm i
 
       - name: Deploy
-        run: git init && git stash && ls -la && npm run deploy
+        run: git stash && ls -la && npm run deploy
         env:
           DEPLOY_PM2_HOST: ${{secrets.DEPLOY_PM2_HOST}}
           DEPLOY_PM2_USER: ${{secrets.DEPLOY_PM2_USER}}
