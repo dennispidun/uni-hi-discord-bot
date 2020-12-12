@@ -10,5 +10,7 @@
     "strictNullChecks": false,     
     "noImplicitAny": true,
     "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   }
 }

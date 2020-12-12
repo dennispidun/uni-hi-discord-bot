@@ -1,0 +1,7 @@
+{
+  "packages": [
+    "notifier",
+    "core"
+  ],
+  "version": "0.0.1"
+}
