@@ -44,7 +44,7 @@ module.exports = {
             repo: 'https://github.com/dennispidun/uni-hi-discord-bot',
             path: '/home/unibot',
             'post-deploy':
-            'pwd && npm install --global lerna && lerna bootstrap && lerna run build && pm2 restart /home/unibot/ecosystem.config.js --env production && pm2 save',
+            'pwd && lerna bootstrap && lerna run build && pm2 restart /home/unibot/ecosystem.config.js --env production && pm2 save',
             env: {
                 NODE_ENV: 'production',
                 DISCORD_BOT_TOKEN: process.env.DISCORD_BOT_TOKEN,
