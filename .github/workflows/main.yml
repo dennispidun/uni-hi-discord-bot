@@ -34,7 +34,7 @@ jobs:
         run: npm i pm2
 
       - name: Deploy
-        run: git stash && npm run deploy
+        run: git stash && run deploy
         env:
           DEPLOY_PM2_HOST: ${{secrets.DEPLOY_PM2_HOST}}
           DEPLOY_PM2_USER: ${{secrets.DEPLOY_PM2_USER}}
