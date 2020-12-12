@@ -34,7 +34,7 @@ jobs:
         run: npm i
 
       - name: Deploy
-        run: rm -rf .gitignore && ls -la && npm run deploy
+        run: git init && git stash && ls -la && npm run deploy
         env:
           DEPLOY_PM2_HOST: ${{secrets.DEPLOY_PM2_HOST}}
           DEPLOY_PM2_USER: ${{secrets.DEPLOY_PM2_USER}}
