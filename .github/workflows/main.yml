@@ -31,10 +31,10 @@ jobs:
           echo UNI_FS_PASSWORD=${{ secrets.UNI_FS_PASSWORD}} >> .env
 
       - name: Install PM2
-        run: npm i pm2
+        run: npm i
 
       - name: Deploy
-        run: git stash && ls -la && npm run deploy
+        run: ls -la && npm run deploy
         env:
           DEPLOY_PM2_HOST: ${{secrets.DEPLOY_PM2_HOST}}
           DEPLOY_PM2_USER: ${{secrets.DEPLOY_PM2_USER}}

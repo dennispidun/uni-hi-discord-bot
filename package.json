@@ -2,7 +2,7 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "deploy": "env $(cat .env | grep -v \"#\" | xargs) pm2 deploy ecosystem.config.js production"
+    "deploy": "env $(cat .env | grep -v \"#\" | xargs) pm2 deploy ./ecosystem.config.js production"
   },
   "devDependencies": {
     "lerna": "^3.22.1",
