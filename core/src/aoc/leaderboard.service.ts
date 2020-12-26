@@ -26,21 +26,18 @@ class LeaderboardService {
 
     constructor(private discord: Client, private notify: NotificationService) {
         db.defaults({ leaderboard: []}).write();
-        cron.schedule('0 6 * * *', async () => {
+        cron.schedule('0 6 1-25 12 *', async () => {
             var dateObj = new Date();
             var month = dateObj.getUTCMonth() + 1;
             var day = dateObj.getUTCDate();
-            if (month == 12) {
-                let guildChannel: TextChannel = this.discord.channels.cache.array()
-                    .filter(channel => channel.type == 'text')
-                    .map(channel => channel as TextChannel)
-                    .filter(channel => channel.name === "advent-of-code")[0];
-                this.notify.simpleNotifyChannel(guildChannel, ":sparkles: Die Aufgaben für den **" + day + ". Tag** von Advent-Of-Code können nun gelöst werden! :sparkles:");
-                if (day > 1) {
-                    this.sendCurrentLeaderboard(guildChannel);
-                }
+            let guildChannel: TextChannel = this.discord.channels.cache.array()
+                .filter(channel => channel.type == 'text')
+                .map(channel => channel as TextChannel)
+                .filter(channel => channel.name === "advent-of-code")[0];
+            this.notify.simpleNotifyChannel(guildChannel, ":sparkles: Die Aufgaben für den **" + day + ". Tag** von Advent-Of-Code können nun gelöst werden! :sparkles:");
+            if (day > 1) {
+                this.sendCurrentLeaderboard(guildChannel);
             }
-            
         });
 
         cron.schedule('0 * * * * *', async () => {

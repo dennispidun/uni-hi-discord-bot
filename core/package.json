@@ -7,7 +7,6 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx tsc",
     "build:ci": "npm ci && tsc",
-    "build:all": "npm i && npm run build && cd communication && npm i && npm build",
     "start": "npm run build && node -r dotenv/config build/index.js"
   },
   "author": "",
