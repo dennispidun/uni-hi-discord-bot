@@ -91,7 +91,7 @@ class LeaderboardService {
     }
 
     async getLeaderboard(): Promise<LeaderboardMember[]> {
-        return await http.get("https://adventofcode.com/2020/leaderboard/private/view/970052.json", {
+        return await http.get("https://adventofcode.com/2021/leaderboard/private/view/970052.json", {
             headers: {
                 Cookie: "session=" + process.env.SESSION_COOKIE + ";"
             }
