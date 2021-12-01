@@ -144,7 +144,7 @@ class LeaderboardService {
             }
         }
         text += "";
-        this.notify.notifyChannel(channel, text, undefined, "Advent Of Code: Top10 Leaderboard", "#e72a64");
+        this.notify.notifyChannel(channel, text, undefined, "Advent Of Code: Top10 Leaderboard (id: 970052-8791cc0c)", "#e72a64");
         if (channel.type === "text") {
             this.notify.simpleNotifyChannel(channel, "_Hint: Das Leaderboard kann auch mit dem Befehl `!leaderboard` jederzeit aufgerufen werden._");
         }
