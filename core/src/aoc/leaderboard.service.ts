@@ -1,6 +1,6 @@
 import Axios from "axios";
 import low from 'lowdb';
-import { Client, DMChannel, GuildChannel, TextChannel } from "discord.js";
+import { Client, DMChannel, GuildChannel, MessageEmbed, TextChannel } from "discord.js";
 import NotificationService from "../notification.service";
 import cron from "node-cron";
 import FileSync from "lowdb/adapters/FileSync";
@@ -143,8 +143,14 @@ class LeaderboardService {
                 break;
             }
         }
-        text += "";
-        this.notify.notifyChannel(channel, text, undefined, "Advent Of Code: Top10 Leaderboard (id: 970052-8791cc0c)", "#e72a64");
+        const code = "970052-8791cc0c"; // TODO in config ? 
+        text += `\n Du willst mitmachen? Klick [hier](https://adventofcode.com/2021/leaderboard/private) und nutze den Code: ${code}`
+        const embed = new MessageEmbed()
+            .setTitle("Advent Of Code: Top10 Leaderboard")
+            .setDescription(text)
+            .setTimestamp()
+            .setColor("#e72a64");
+        channel.send(embed);
         if (channel.type === "text") {
             this.notify.simpleNotifyChannel(channel, "_Hint: Das Leaderboard kann auch mit dem Befehl `!leaderboard` jederzeit aufgerufen werden._");
         }
