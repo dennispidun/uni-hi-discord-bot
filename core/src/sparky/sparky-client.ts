@@ -10,8 +10,7 @@ const STUMGMT_API_BASE = "https://authenticate.sse.uni-hildesheim.de/stmgmt";
 const API = {
   authenticate: {
     base: AUTH_API_BASE + "/authenticate",
-    check: AUTH_API_BASE + "/authenticate/check",
-    userId: STUMGMT_API_BASE + "/auth/loginWithToken"
+    userId: STUMGMT_API_BASE + "/auth/whoAmI"
   },
   courses: {
     base: (userId: string) => STUMGMT_API_BASE + `/users/${userId}/courses`,
@@ -49,7 +48,7 @@ class SparkyAuth {
   }
 
   isAuthenticated = async () => {
-    const result = (await axiosApiInstance.get(API.authenticate.check));
+    const result = (await axiosApiInstance.get(API.authenticate.userId));
     return result.status == 200;
   }
 
@@ -57,9 +56,12 @@ class SparkyAuth {
     const result = await axiosApiInstance.post(API.authenticate.base, credentials);
     const authToken = result.data.token.token;
 
-    const resultUserToken = await axiosApiInstance.post(API.authenticate.userId, {token: authToken});
-    store.set("token", resultUserToken.data.accessToken); 
-    store.set("userid", resultUserToken.data.user.id); 
+    const resultWhoAmI = await axiosApiInstance.get(API.authenticate.userId, { headers : {
+      'Authorization': `Bearer ${authToken}`,
+      'Accept': 'application/json'
+    }});
+    store.set("token", authToken); 
+    store.set("userid", resultWhoAmI.data.id); 
   }
 
   getUserId() {
@@ -67,7 +69,7 @@ class SparkyAuth {
   }
   
   printAuthCheck = async () => {
-    const result = (await axiosApiInstance.get(API.authenticate.check)).data;
+    const result = (await axiosApiInstance.get(API.authenticate.userId)).data;
     console.log(result);
   }
 
