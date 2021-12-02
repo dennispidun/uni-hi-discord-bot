@@ -20,6 +20,8 @@ const API = {
 
 class SparkyAuth {
 
+  loginTries: number = 0;
+
   constructor(credentials: SparkyCredentials) {
     console.log("login");
     this.login(credentials).then(() => {
@@ -36,7 +38,10 @@ class SparkyAuth {
           return response;
       }, (error) => {
         if (401 === error.response.status) {
-          this.login(credentials).then(() => {});
+          this.loginTries++;
+          if (this.loginTries < 5) {
+            this.login(credentials).then(() => {});
+          }
         } else {
           return Promise.reject(error);
         }
