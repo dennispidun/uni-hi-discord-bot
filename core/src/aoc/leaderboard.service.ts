@@ -144,7 +144,7 @@ class LeaderboardService {
             }
         }
         const code = "970052-8791cc0c"; // TODO in config ? 
-        text += `\n Du willst mitmachen? Klick [hier](https://adventofcode.com/2021/leaderboard/private) und nutze den Code: ${code}`
+        text += `\n Du willst mitmachen? Klick [hier](https://adventofcode.com/2021/leaderboard/private) und nutze den Code: \`${code}\``
         const embed = new MessageEmbed()
             .setTitle("Advent Of Code: Top10 Leaderboard")
             .setDescription(text)
