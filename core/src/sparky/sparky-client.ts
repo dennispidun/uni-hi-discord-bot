@@ -21,6 +21,7 @@ const API = {
 class SparkyAuth {
 
   constructor(credentials: SparkyCredentials) {
+    console.log("login");
     this.login(credentials).then(() => {
       axiosApiInstance.interceptors.request.use((config) => {
         const token = store.get("token");
@@ -55,13 +56,14 @@ class SparkyAuth {
   private login = async (credentials: SparkyCredentials) => {
     const result = await axiosApiInstance.post(API.authenticate.base, credentials);
     const authToken = result.data.token.token;
-
+    console.log("authToken: ", authToken);
     const resultWhoAmI = await axiosApiInstance.get(API.authenticate.userId, { headers : {
       'Authorization': `Bearer ${authToken}`,
       'Accept': 'application/json'
     }});
     store.set("token", authToken); 
     store.set("userid", resultWhoAmI.data.id); 
+    console.log("resultWhoAmI.data.id: ", resultWhoAmI.data.id);
   }
 
   getUserId() {
