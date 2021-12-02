@@ -26,7 +26,9 @@ export class CoursesService {
     }
 
     update = () => {
+        console.log("update");
         this.sparky.getCourses().then(courses => {
+            console.log("courses: ", courses);
             const newCourses: Course[] = courses.filter(course => !this.hasCourse(course));
             const oldCourses: Course[] = courses.filter(course => this.hasCourse(course));
             newCourses.forEach(course => {
