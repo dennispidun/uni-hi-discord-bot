@@ -24,13 +24,14 @@ discord.on('ready', async () => {
 
   new ExamsService(discord, notifyService);
 
-  leaderboardService = new LeaderboardService(discord, notifyService);
+  // leaderboardService = new LeaderboardService(discord, notifyService);
 
   coursesService = new CoursesService(notifyService, sparky);
  
   console.log(`Logged in as ${discord.user.tag}, V1.0.0!`);
 });
 
+/*
 discord.on('message', async (message) => {
   if (message.content === "!leaderboard" || message.content === "!lb") {
     if (message.channel.type === "text") {
@@ -43,6 +44,6 @@ discord.on('message', async (message) => {
       leaderboardService.sendCurrentLeaderboard(channel);
     }
   }
-});
+});*/
 
 discord.login(process.env.DISCORD_BOT_TOKEN);
